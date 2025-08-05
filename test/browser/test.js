@@ -370,6 +370,21 @@ describe('morphdom' , function() {
         expect(el1.children.length).to.equal(0);
     });
 
+    it('should handle morphing document.body with full HTML string correctly', function() {
+        var el1 = document.createElement('body');
+        
+        morphdom(el1, '<body><div>Hello</div></body>');
+        
+        expect(el1.nodeName).to.equal('BODY');
+        expect(el1.children.length).to.equal(1);
+        expect(el1.firstChild.nodeName).to.equal('DIV');
+        expect(el1.firstChild.textContent).to.equal('Hello');
+        
+        // Verify it doesn't have nested html/body tags
+        expect(el1.querySelector('html')).to.equal(null);
+        expect(el1.querySelector('body')).to.equal(null);
+    });
+
     it('does morph child with dup id', function() {
         var el1 = document.createElement('div');
         el1.id = 'el-1';
